@@ -1,0 +1,14 @@
+docs:
+  - title: Getting Started
+    children:
+      - title: "Quick-Start Guide"
+        url: /quick_start/
+      - title: "Structure"
+        url: /structure/
+      - title: "Continuous Integration"
+        url: /ci/
+
+  - title: Automations
+    children:
+      - title: "Automatic Releases"
+        url: /automations/release/
