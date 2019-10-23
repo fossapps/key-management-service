@@ -1,4 +1,5 @@
 using Micro.Starter.Api.Configs;
+using Micro.Starter.Api.Keys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Npgsql;
@@ -8,7 +9,7 @@ namespace Micro.Starter.Api.Models
     public class ApplicationContext : DbContext
     {
         private readonly DatabaseConfig _db;
-        public DbSet<Weather> Weathers { set; get; }
+        public DbSet<Key> Keys { set; get; }
 
         public ApplicationContext(DbContextOptions options, IOptions<DatabaseConfig> dbOption) : base(options)
         {
