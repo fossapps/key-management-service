@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,5 +15,7 @@ namespace Micro.Starter.Api.Keys
         [Column(TypeName = "VARCHAR")]
         [StringLength(50)]
         public string ShortSha { set; get; } // needs index
+
+        public DateTime CreatedAt = DateTime.Now;
     }
 }
