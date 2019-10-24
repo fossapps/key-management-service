@@ -2,12 +2,10 @@ using System;
 using System.Linq;
 using Micro.Starter.Api.Configs;
 using Micro.Starter.Api.Models;
-using Micro.Starter.Api.Repository;
 using Micro.Starter.Api.Uuid;
 using Micro.Starter.Api.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,7 +47,6 @@ namespace Micro.Starter.Api
         private static void ConfigureDependencies(IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>();
-            services.AddScoped<IWeatherRepository, WeatherRepository>();
             services.AddSingleton<IUuidService, UuidService>();
         }
 

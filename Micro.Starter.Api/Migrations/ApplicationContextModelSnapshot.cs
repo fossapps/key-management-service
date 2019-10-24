@@ -18,17 +18,25 @@ namespace Micro.Starter.Api.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0-preview8.19405.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Micro.Starter.Api.Models.Weather", b =>
+            modelBuilder.Entity("Micro.Starter.Api.Keys.Key", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<double>("Temperature")
-                        .HasColumnType("double precision");
+                    b.Property<string>("Body")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sha")
+                        .HasColumnType("VARCHAR")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("ShortSha")
+                        .HasColumnType("VARCHAR")
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
-                    b.ToTable("Weathers");
+                    b.ToTable("Keys");
                 });
 #pragma warning restore 612, 618
         }

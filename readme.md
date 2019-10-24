@@ -1,45 +1,28 @@
-## Introduction
-I'm starting this project so anyone can use it and kick start their project.
-This will use .NET Core framework so it's truly cross-platform
-(unless you make system calls to a specific platform)
+## KeyStore
 
-Tests, builds and deployment will be done on linux machine, but windows should work too,
-However a project as small as this shouldn't be a problem to support on all OSes.
-CI will be done only on linux, and specially on a docker container. Since this is for starting microservices,
-there's no need to test on windows, as long as docker image is built everything should be good.
+Started from Micro.Starter Project, the goal of this project is to have a reusable Key Storage for different purposes.
 
-## Comparison with dotnet generator
-You might be tempted to think why can't we simply do `dotnet new webapi` and we obviously can for playing around.
-I want to include much more features than just returning few values from `ValuesController` check below section to see what it'll contain.
+Consider a authentication system which uses JWT, and uses asymmetric keys to sign keys, public keys can be stored on this storage with some retention policy.
 
-## What will this contain?
-As of now I see the following to be included on this kit:
-- [x] docker support with docker-compose
-- [x] background worker support
-- [x] health check support
-- [x] `ViewModel` to ensure communication is completely TypeSafe.
-- [x] document controller response type for swagger
-- [x] Swagger Docs (`spec.json` endpoint and docs)
-- [ ] Linting
-- [x] Docker image generation after doing CI testing
-- [ ] Logging (probably with kibana, but maybe using interface instead)
-- [x] Health Checks
-- [ ] Caching
+Once a key expires, it's simply removed after being sent to a long term storage for historical purposes.
 
-## Timeline
-Well, this isn't a full time project which I can work on, so the more contribution I get the faster project will flow.
+## Save removed keys
+Once a key is no longer in use (defined by retention policy), it needs to be removed from database for few reasons.
+- We can provide shortest key because keys won't collide
+- Removing keys will ensure tables are small
+- Ability to backup or restore quick
+- Ability to read the whole table in memory and serve from there if needed
 
-I'm thrilled about this project and want to use for myself anyway, there'll be continuous development.
-Further contribution will only make this grow better and faster.
-I want to see this project be production ready, where you clone it,
-and start writing production ready code without setting up
+But before permanently removing a key, we'll store it somewhere based using driver pattern,
+so new deployment of this service can be done without writing any more code.
 
-after a while no more development will be needed on this project, but rather other services will be included
+Initially I'll include one driver which does nothing. But I'll be accepting more drivers which will save to database, S3, azure, firebase etc.
+If there's a special case, then you'd need to clone this repo and write your own driver. (help wanted: if you can find a way to add config and driver stuff separated, I'd appreciate it, it'd be also awesome if I could use a certain driver during deployment, like deploy this service and driver separately and point to the driver on runtime)
 
 ## Used packages
 
 ## Getting Started
-Simply clone this repository, and open in Rider or Visual Studio Code and start building.
+You can start by cloning this repository, or better yet, just use docker to run this on your own.
 
 ## Contribution
 Please follow the existing coding standards which is being followed, no trailing whitespaces, edge cases goes to if conditions,

@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using App.Metrics;
-using App.Metrics.Counter;
 using App.Metrics.Timer;
-using Micro.Starter.Api.Models;
-using Micro.Starter.Api.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +12,10 @@ namespace Micro.Starter.Api.HealthCheck
     [Route("api/health")]
     public class HealthCheckController : ControllerBase
     {
-        private readonly IWeatherRepository _weather;
         private readonly IMetrics _metrics;
 
-        public HealthCheckController(IWeatherRepository weather, IMetrics metrics)
+        public HealthCheckController(IMetrics metrics)
         {
-            _weather = weather;
             _metrics = metrics;
         }
 
@@ -45,11 +40,10 @@ namespace Micro.Starter.Api.HealthCheck
             }
         }
 
-        private async Task<bool> GetFakeDbHealth()
+        private static async Task<bool> GetFakeDbHealth()
         {
             try
             {
-                await _weather.Create(new Weather());
                 return true;
             }
             catch (Exception)
