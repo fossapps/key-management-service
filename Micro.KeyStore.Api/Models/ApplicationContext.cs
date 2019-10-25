@@ -1,5 +1,6 @@
 using Micro.KeyStore.Api.Configs;
 using Micro.KeyStore.Api.Keys;
+using Micro.KeyStore.Api.Keys.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Npgsql;

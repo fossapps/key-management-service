@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Micro.KeyStore.Api.Configs;
 using Micro.KeyStore.Api.Keys;
+using Micro.KeyStore.Api.Keys.Models;
+using Micro.KeyStore.Api.Keys.Repositories;
 using Micro.KeyStore.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -81,6 +83,21 @@ namespace Micro.KeyStore.IntegrationTest.Keys
             await repository.Save(new Key {Body = "key5", Id = "5", Sha = "lom", CreatedAt = DateTime.Now, ShortSha = "l"});
             var actualSha = await repository.FindNextShortSha("sna_temp232");
             Assert.AreEqual("sn", actualSha);
+        }
+
+        [Test]
+        public async Task TestCreateShortShaWorksForFirstCharacters()
+        {
+            var db = GetDatabaseInstance();
+            CleanDb(db);
+            var repository = new KeyRepository(db);
+            await repository.Save(new Key {Body = "key1", Id = "1", Sha = "sha_temp123", CreatedAt = DateTime.Now, ShortSha = "s"});
+            await repository.Save(new Key {Body = "key2", Id = "2", Sha = "sha_temp234", CreatedAt = DateTime.Now, ShortSha = "sh"});
+            await repository.Save(new Key {Body = "key3", Id = "3", Sha = "sha_temp231", CreatedAt = DateTime.Now, ShortSha = "sha"});
+            await repository.Save(new Key {Body = "key4", Id = "4", Sha = "pak_test", CreatedAt = DateTime.Now, ShortSha = "p"});
+            await repository.Save(new Key {Body = "key5", Id = "5", Sha = "lom", CreatedAt = DateTime.Now, ShortSha = "l"});
+            var actualSha = await repository.FindNextShortSha("kite_something");
+            Assert.AreEqual("k", actualSha);
         }
     }
 }

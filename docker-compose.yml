@@ -31,7 +31,7 @@ services:
     image: grafana/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret
-      - GF_INSTALL_PLUGINS=grafana-piechart-panel,raintank-worldping-app,digrich-bubblechart-panel,corpglory-progresslist-panel,flant-statusmap-panel
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,raintank-worldping-app,digrich-bubblechart-panel,corpglory-progresslist-panel,flant-statusmap-panel,natel-plotly-panel
     ports:
       - 3000:3000
   adminer:
