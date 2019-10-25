@@ -22,6 +22,11 @@ namespace Micro.KeyStore.Api.Keys.Services
 
         public async Task<Key> CreateKey(Key key)
         {
+            var result = await _keyRepository.FindBySha(key.Sha);
+            if (result != null)
+            {
+                throw new ConflictingKeyConflictException();
+            }
             var (elapsed, shortSha) = await Timer.MeasureAsync(async () => await _keyRepository.FindNextShortSha(key.Sha));
             key.ShortSha = shortSha;
             ShortShaKey.Measure(_metrics, shortSha, elapsed);

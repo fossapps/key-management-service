@@ -24,12 +24,12 @@ namespace Micro.KeyStore.Api.Keys.Repositories
 
         public Task<Key> FindByShortSha(string shortSha)
         {
-            return _db.Keys.AsNoTracking().FirstAsync(x => x.ShortSha == shortSha);
+            return _db.Keys.AsNoTracking().FirstOrDefaultAsync(x => x.ShortSha == shortSha);
         }
 
         public Task<Key> FindBySha(string sha)
         {
-            return _db.Keys.AsNoTracking().FirstAsync(x => x.Sha == sha);
+            return _db.Keys.AsNoTracking().FirstOrDefaultAsync(x => x.Sha == sha);
         }
 
         public async Task<IEnumerable<Key>> FindCreatedAfter(DateTime createdAfter)

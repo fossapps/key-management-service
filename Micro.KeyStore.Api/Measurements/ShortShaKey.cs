@@ -23,7 +23,7 @@ namespace Micro.KeyStore.Api.Measurements
                 MeasurementUnit = Unit.Bytes,
                 Tags = new MetricTags("starts with", startsWith)
             };
-            metrics.Measure.Histogram.Update(measurement, length);
+            metrics?.Measure?.Histogram.Update(measurement, length);
         }
 
         private static void MeasureTime(IMetrics metrics, TimeSpan timeSpan)
@@ -34,7 +34,7 @@ namespace Micro.KeyStore.Api.Measurements
                 DurationUnit = TimeUnit.Milliseconds,
                 RateUnit = TimeUnit.Milliseconds,
             };
-            metrics.Provider.Timer.Instance(timer).Record((long) timeSpan.TotalMilliseconds, TimeUnit.Milliseconds);
+            metrics?.Provider?.Timer.Instance(timer).Record((long) timeSpan.TotalMilliseconds, TimeUnit.Milliseconds);
         }
     }
 }
