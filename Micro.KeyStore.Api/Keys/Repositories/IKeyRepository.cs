@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Micro.KeyStore.Api.Keys.Models;
 
-namespace Micro.KeyStore.Api.Keys
+namespace Micro.KeyStore.Api.Keys.Repositories
 {
     public interface IKeyRepository
     {

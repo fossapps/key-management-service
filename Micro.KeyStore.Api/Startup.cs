@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
 using Micro.KeyStore.Api.Configs;
+using Micro.KeyStore.Api.Keys;
+using Micro.KeyStore.Api.Keys.Repositories;
+using Micro.KeyStore.Api.Keys.Services;
 using Micro.KeyStore.Api.Models;
 using Micro.KeyStore.Api.Uuid;
 using Micro.KeyStore.Api.Workers;
@@ -48,6 +51,8 @@ namespace Micro.KeyStore.Api
         {
             services.AddDbContext<ApplicationContext>();
             services.AddSingleton<IUuidService, UuidService>();
+            services.AddScoped<IKeyRepository, KeyRepository>();
+            services.AddScoped<IKeyService, KeyService>();
         }
 
         private static void AddConfiguration(IServiceCollection services, IConfiguration configuration)

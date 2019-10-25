@@ -1,6 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using App.Metrics;
 using Micro.KeyStore.Api.Keys;
+using Micro.KeyStore.Api.Keys.Models;
+using Micro.KeyStore.Api.Keys.Repositories;
+using Micro.KeyStore.Api.Keys.Services;
 using Micro.KeyStore.Api.Uuid;
 using Moq;
 using NUnit.Framework;
@@ -17,6 +21,12 @@ namespace Micro.KeyStore.UnitTest.Keys
             return uuid;
         }
 
+        private Mock<IMetrics> GetMockMetrics()
+        {
+            var metrics = new Mock<IMetrics>();
+            return metrics;
+        }
+
         private Mock<IKeyRepository> GetKeyRepository()
         {
             var mockRepo = new Mock<IKeyRepository>();
@@ -30,7 +40,7 @@ namespace Micro.KeyStore.UnitTest.Keys
         {
             var mockUUid = GetUuidService("generated_uuid");
             var mockRepo = GetKeyRepository();
-            var keyService = new KeyService(mockRepo.Object, mockUUid.Object);
+            var keyService = new KeyService(mockRepo.Object, mockUUid.Object, GetMockMetrics().Object);
             var key = new Key
             {
                 Body = "something",
@@ -46,7 +56,7 @@ namespace Micro.KeyStore.UnitTest.Keys
         {
             var mockUUid = GetUuidService("uuid");
             var mockRepo = GetKeyRepository();
-            var keyService = new KeyService(mockRepo.Object, mockUUid.Object);
+            var keyService = new KeyService(mockRepo.Object, mockUUid.Object, GetMockMetrics().Object);
             var key = new Key
             {
                 Body = "something",
