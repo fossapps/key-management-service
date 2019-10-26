@@ -10,7 +10,8 @@ namespace Micro.KeyStore.Api.Keys.Repositories
         Task<Key> FindById(string id);
         Task<Key> FindByShortSha(string shortSha);
         Task<Key> FindBySha(string sha);
-        Task<IEnumerable<Key>> FindCreatedAfter(DateTime createdAfter);
+        Task<IEnumerable<Key>> FindCreatedBefore(DateTime createdAfter);
+        Task<IEnumerable<Key>> FindCreatedBefore(DateTime createdAfter, int numberOfItems);
         Task<string> FindNextShortSha(string sha);
         Task Remove(string id);
         Task<Key> Save(Key key);

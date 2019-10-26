@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Net.Http;
+using Micro.KeyStore.Api.Archive;
+using Micro.KeyStore.Api.Archive.drivers;
 using Micro.KeyStore.Api.Configs;
-using Micro.KeyStore.Api.Keys;
 using Micro.KeyStore.Api.Keys.Repositories;
 using Micro.KeyStore.Api.Keys.Services;
 using Micro.KeyStore.Api.Models;
@@ -33,7 +35,7 @@ namespace Micro.KeyStore.Api
         {
             AddConfiguration(services, Configuration);
             services.AddMetrics();
-            ConfigureDependencies(services);
+            ConfigureDependencies(services, Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,23 +49,43 @@ namespace Micro.KeyStore.Api
             RegisterWorker(services);
         }
 
-        private static void ConfigureDependencies(IServiceCollection services)
+        private static void ConfigureDependencies(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationContext>();
             services.AddSingleton<IUuidService, UuidService>();
             services.AddScoped<IKeyRepository, KeyRepository>();
             services.AddScoped<IKeyService, KeyService>();
+            var client = new HttpClient {Timeout = TimeSpan.FromSeconds(5)};
+            services.AddSingleton(client);
+            var driver = configuration.GetSection("ArchiveKeys").Get<ArchiveKeysConfig>().Driver;
+            ConfigureArchiveDriver(driver, services);
+        }
+
+        private static void ConfigureArchiveDriver(string driver, IServiceCollection services)
+        {
+            switch (driver)
+            {
+                case "noop":
+                    services.AddSingleton<IDriver<Key>, Noop<Key>>();
+                    break;
+                case "webhook":
+                    services.AddSingleton<IDriver<Key>, Webhook<Key>>();
+                    break;
+                default:
+                    throw new ArgumentException($"driver ${driver} not found");
+            }
         }
 
         private static void AddConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<DatabaseConfig>(configuration.GetSection("DatabaseConfig"));
             services.Configure<SlackLoggingConfig>(configuration.GetSection("Logging").GetSection("Slack"));
+            services.Configure<ArchiveKeysConfig>(configuration.GetSection("ArchiveKeys"));
         }
 
         private static void RegisterWorker(IServiceCollection services)
         {
-            services.AddHostedService<Worker>();
+            services.AddHostedService<CleanupKeysWorker>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
