@@ -7,10 +7,10 @@ docs:
         url: /structure/
       - title: "Continuous Integration"
         url: /ci/
-  - title: Extra Topic
-    - children:
-        - title: "Discarding Keys"
-          url: /discarding_keys/
+  - title: "Extra Topic"
+    children:
+      - title: "Discarding Keys"
+        url: /discarding_keys/
 
   - title: Automations
     children:
