@@ -2,12 +2,22 @@
 ```
 $ tree -I 'docs|*bin*|*obj*'
 .
+├── docker-compose.ci.yml
 ├── docker-compose.yml
 ├── Dockerfile
+├── extras
+│   └── grafana
+│       └── Key.json
 ├── hooks
 │   └── commit-msg
-├── Micro.Starter.Api
+├── Micro.KeyStore.Api
 │   ├── appsettings.json
+│   ├── Archive
+│   │   ├── ArchiveKeysConfig.cs
+│   │   ├── drivers
+│   │   │   ├── Noop.cs
+│   │   │   └── Webhook.cs
+│   │   └── IDriver.cs
 │   ├── Configs
 │   │   ├── DatabaseConfig.cs
 │   │   └── SlackLoggingConfig.cs
@@ -17,36 +27,63 @@ $ tree -I 'docs|*bin*|*obj*'
 │   ├── HealthCheck
 │   │   ├── HealthCheckController.cs
 │   │   └── HealthData.cs
-│   ├── Micro.Starter.Api.csproj
+│   ├── Keys
+│   │   ├── KeysController.cs
+│   │   ├── Models
+│   │   │   ├── Key.cs
+│   │   │   └── ViewModels.cs
+│   │   ├── Repositories
+│   │   │   ├── IKeyRepository.cs
+│   │   │   └── KeyRepository.cs
+│   │   ├── Services
+│   │   │   ├── ConflictingKeyConflictException.cs
+│   │   │   ├── IKeyService.cs
+│   │   │   └── KeyService.cs
+│   │   └── Sha256.cs
+│   ├── Measurements
+│   │   ├── ShortShaKey.cs
+│   │   └── Timer.cs
+│   ├── Micro.KeyStore.Api.csproj
 │   ├── Migrations
+│   │   └── ApplicationContextModelSnapshot.cs
 │   ├── Models
 │   │   ├── ApplicationContext.cs
 │   │   └── Weather.cs
 │   ├── Program.cs
 │   ├── Properties
 │   │   └── launchSettings.json
-│   ├── Repository
-│   │   ├── IWeatherRepository.cs
-│   │   └── WeatherRepository.cs
 │   ├── Startup.cs
 │   ├── Uuid
 │   │   ├── IUuidService.cs
 │   │   └── UuidService.cs
 │   └── Workers
-│       └── Worker.cs
-├── Micro.Starter.sln
-├── Micro.Starter.UnitTest
+│       ├── CleanupKeysWorker.cs
+│       └── Key.cs
+├── Micro.KeyStore.IntegrationTest
 │   ├── ExternalTests
 │   │   └── postman_tests.sh
-│   ├── Micro.Starter.UnitTest.csproj
+│   ├── Keys
+│   │   └── KeyRepositoryTest.cs
+│   └── Micro.KeyStore.IntegrationTest.csproj
+├── Micro.KeyStore.sln
+├── Micro.KeyStore.UnitTest
+│   ├── ExternalTests
+│   │   └── postman_tests.sh
+│   ├── Keys
+│   │   └── KeyServiceTest.cs
+│   ├── Micro.KeyStore.UnitTest.csproj
 │   └── UnitTest1.cs
+├── readme.md
 └── release.config.js
 ```
 
-## Micro.Starter.Api
+## Micro.KeyStore.Api
 This is the project which is actually booted, once it boots, it configures and starts listening for incoming requests.
 `Controllers` are where requests will land in, they're not supposed to contain any business logic,
 but rather extract data from requests and pass in to other services.
 
-## Micro.Starter.UnitTest
+## Micro.KeyStore.UnitTest
 This project contains unit tests and postman tests for Micro.Starter.Api
+
+## Micro.KeyStore.IntegrationTest
+This project contains integration tests for Repository layer.

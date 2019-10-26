@@ -30,7 +30,7 @@ This step simply tags the docker image, pushes the tag to docker hub, and create
 For all these automation, it uses semantic-release, please look into release automation section of documentation
 
 ```bash
-docker run fossapps/micro.starter:tag
+docker run fossapps/micro.keystore:tag
 ```
 Where tag can be either `latest` or any github tag (or the short commit hash)
 
