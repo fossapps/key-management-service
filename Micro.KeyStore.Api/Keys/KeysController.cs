@@ -6,6 +6,7 @@ using Micro.KeyStore.Api.Keys.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 
 namespace Micro.KeyStore.Api.Keys
 {
@@ -15,11 +16,13 @@ namespace Micro.KeyStore.Api.Keys
     {
         private readonly IKeyService _keyService;
         private readonly IKeyRepository _keyRepository;
+        private readonly ILogger<KeysController> _logger;
 
-        public KeysController(IKeyService keyService, IKeyRepository keyRepository)
+        public KeysController(IKeyService keyService, IKeyRepository keyRepository, ILogger<KeysController> logger)
         {
             _keyService = keyService;
             _keyRepository = keyRepository;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -50,6 +53,7 @@ namespace Micro.KeyStore.Api.Keys
             catch (Exception e)
             {
                 ModelState.AddModelError("Errors", "Unknown error occurred");
+                _logger.LogError(e, "caught exception");
                 return new ObjectResult((new ValidationProblemDetails(ModelState))) {StatusCode = StatusCodes.Status500InternalServerError};
             }
         }

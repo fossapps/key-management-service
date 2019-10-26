@@ -17,6 +17,6 @@ namespace Micro.KeyStore.Api.Keys.Models
         [StringLength(50)]
         public string ShortSha { set; get; }
 
-        public DateTime CreatedAt = DateTime.Now;
+        public DateTime CreatedAt { set; get; } = DateTime.Now;
     }
 }

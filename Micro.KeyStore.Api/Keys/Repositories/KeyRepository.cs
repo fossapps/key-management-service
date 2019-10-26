@@ -32,9 +32,14 @@ namespace Micro.KeyStore.Api.Keys.Repositories
             return _db.Keys.AsNoTracking().FirstOrDefaultAsync(x => x.Sha == sha);
         }
 
-        public async Task<IEnumerable<Key>> FindCreatedAfter(DateTime createdAfter)
+        public async Task<IEnumerable<Key>> FindCreatedBefore(DateTime createdBefore)
         {
-            return await _db.Keys.AsNoTracking().Where(x => x.CreatedAt > createdAfter).ToListAsync();
+            return await _db.Keys.AsNoTracking().Where(x => x.CreatedAt < createdBefore).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Key>> FindCreatedBefore(DateTime createdBefore, int numberOfItems)
+        {
+            return await _db.Keys.AsNoTracking().Where(x => x.CreatedAt < createdBefore).Take(numberOfItems).ToListAsync();
         }
 
         public async Task<string> FindNextShortSha(string sha)
