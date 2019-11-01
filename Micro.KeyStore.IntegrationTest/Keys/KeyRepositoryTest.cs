@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Micro.KeyStore.Api.Configs;
-using Micro.KeyStore.Api.Keys;
 using Micro.KeyStore.Api.Keys.Models;
 using Micro.KeyStore.Api.Keys.Repositories;
 using Micro.KeyStore.Api.Models;
@@ -23,7 +22,7 @@ namespace Micro.KeyStore.IntegrationTest.Keys
             CleanDb(db);
         }
 
-        private void CleanDb(ApplicationContext db)
+        private static void CleanDb(ApplicationContext db)
         {
             db.Keys.RemoveRange(db.Keys.ToList());
             db.SaveChanges();
@@ -37,7 +36,7 @@ namespace Micro.KeyStore.IntegrationTest.Keys
                 Name = "starter_db",
                 Password = "secret",
                 Port = 15433,
-                User = "starter",
+                User = "starter"
             };
             options.Setup(x => x.Value).Returns(databaseConfig);
             return options.Object;

@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Linq;
 using App.Metrics;
 
@@ -32,7 +31,7 @@ namespace Micro.KeyStore.Api.Measurements
             {
                 Name = "ShortShaKeyGenerationTime",
                 DurationUnit = TimeUnit.Milliseconds,
-                RateUnit = TimeUnit.Milliseconds,
+                RateUnit = TimeUnit.Milliseconds
             };
             metrics?.Provider?.Timer.Instance(timer).Record((long) timeSpan.TotalMilliseconds, TimeUnit.Milliseconds);
         }

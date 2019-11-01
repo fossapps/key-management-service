@@ -5,7 +5,6 @@ using Micro.KeyStore.Api.Keys.Repositories;
 using Micro.KeyStore.Api.Keys.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 
 namespace Micro.KeyStore.Api.Keys
@@ -33,7 +32,7 @@ namespace Micro.KeyStore.Api.Keys
             var key = new Key
             {
                 Body = request.Body,
-                Sha = Sha256.Compute(request.Body),
+                Sha = Sha256.Compute(request.Body)
             };
             try
             {
@@ -41,12 +40,13 @@ namespace Micro.KeyStore.Api.Keys
                 var keyCreatedResponse = new KeyCreatedResponse
                 {
                     Body = result.Body,
-                    Id = result.ShortSha,
+                    Id = result.ShortSha
                 };
                 return CreatedAtAction("Get", "Keys", new {id = keyCreatedResponse.Id}, keyCreatedResponse);
             }
             catch (ConflictingKeyConflictException e)
             {
+                _logger.LogError(e, "caught conflicting exception");
                 ModelState.AddModelError("Errors", "Key already exists");
                 return Conflict(new ValidationProblemDetails(ModelState));
             }
@@ -54,7 +54,7 @@ namespace Micro.KeyStore.Api.Keys
             {
                 ModelState.AddModelError("Errors", "Unknown error occurred");
                 _logger.LogError(e, "caught exception");
-                return new ObjectResult((new ValidationProblemDetails(ModelState))) {StatusCode = StatusCodes.Status500InternalServerError};
+                return new ObjectResult(new ValidationProblemDetails(ModelState)) {StatusCode = StatusCodes.Status500InternalServerError};
             }
         }
 
@@ -71,7 +71,7 @@ namespace Micro.KeyStore.Api.Keys
             var res = new KeyCreatedResponse
             {
                 Body = key.Body,
-                Id = key.ShortSha,
+                Id = key.ShortSha
             };
             return Ok(res);
         }

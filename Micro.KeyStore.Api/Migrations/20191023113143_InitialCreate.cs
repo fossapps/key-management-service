@@ -7,13 +7,13 @@ namespace Micro.KeyStore.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Keys",
-                columns: table => new
+                "Keys",
+                table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(),
                     Body = table.Column<string>(nullable: true),
-                    Sha = table.Column<string>(type: "VARCHAR", maxLength: 250, nullable: true),
-                    ShortSha = table.Column<string>(type: "VARCHAR", maxLength: 50, nullable: true)
+                    Sha = table.Column<string>("VARCHAR", maxLength: 250, nullable: true),
+                    ShortSha = table.Column<string>("VARCHAR", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,7 +26,7 @@ namespace Micro.KeyStore.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Keys");
+                "Keys");
         }
     }
 }
