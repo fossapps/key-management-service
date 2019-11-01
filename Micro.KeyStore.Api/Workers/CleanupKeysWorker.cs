@@ -50,7 +50,7 @@ namespace Micro.KeyStore.Api.Workers
                             await _archiver.Save(new Key
                             {
                                 Body = key.Body,
-                                Id = key.ShortSha,
+                                Id = key.ShortSha
                             });
                             await _keyRepository.Remove(key.Id);
                         }

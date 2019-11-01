@@ -13,20 +13,20 @@ namespace Micro.KeyStore.UnitTest.Keys
     public class KeyServiceTest
     {
 
-        private Mock<IUuidService> GetUuidService(string uuidToReturn)
+        private static Mock<IUuidService> GetUuidService(string uuidToReturn)
         {
             var uuid = new Mock<IUuidService>();
             uuid.Setup(x => x.GenerateUuId()).Returns(uuidToReturn);
             return uuid;
         }
 
-        private Mock<IMetrics> GetMockMetrics()
+        private static Mock<IMetrics> GetMockMetrics()
         {
             var metrics = new Mock<IMetrics>();
             return metrics;
         }
 
-        private Mock<IKeyRepository> GetKeyRepository()
+        private static Mock<IKeyRepository> GetKeyRepository()
         {
             var mockRepo = new Mock<IKeyRepository>();
             mockRepo.Setup(x => x.FindNextShortSha(It.IsAny<string>())).ReturnsAsync("short_sha");

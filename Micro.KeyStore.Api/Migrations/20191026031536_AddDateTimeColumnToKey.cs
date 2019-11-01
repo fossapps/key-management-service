@@ -8,8 +8,8 @@ namespace Micro.KeyStore.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreatedAt",
-                table: "Keys",
+                "CreatedAt",
+                "Keys",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
             migrationBuilder.CreateIndex("created_at", "Keys", "CreatedAt");
@@ -18,8 +18,8 @@ namespace Micro.KeyStore.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "CreatedAt",
-                table: "Keys");
+                "CreatedAt",
+                "Keys");
         }
     }
 }

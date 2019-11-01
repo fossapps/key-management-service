@@ -110,7 +110,7 @@ namespace Micro.KeyStore.Api
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 
-        private static void ConfigureSlack(ILoggerFactory loggerFactory, SlackLoggingConfig slackConfig, IWebHostEnvironment env)
+        private static void ConfigureSlack(ILoggerFactory loggerFactory, SlackLoggingConfig slackConfig, IHostEnvironment env)
         {
             if (string.IsNullOrEmpty(slackConfig.WebhookUrl))
             {
