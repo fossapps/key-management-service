@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using App.Metrics;
 using Micro.KeyStore.Api.Keys.Models;
 using Micro.KeyStore.Api.Keys.Repositories;
 using Micro.KeyStore.Api.Keys.Services;
