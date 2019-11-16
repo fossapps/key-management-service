@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using App.Metrics;
 using Micro.KeyStore.Api.Keys.Models;
 using Micro.KeyStore.Api.Keys.Repositories;
 using Micro.KeyStore.Api.Keys.Services;
@@ -27,6 +28,7 @@ namespace Micro.KeyStore.Api.Keys
         [HttpPost]
         [ProducesResponseType(typeof(KeyCreatedResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Add(CreateKeyRequest request)
         {
             var key = new Key
@@ -60,6 +62,7 @@ namespace Micro.KeyStore.Api.Keys
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(KeyCreatedResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(string id)
         {
             var key = await _keyRepository.FindByShortSha(id);

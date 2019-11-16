@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using App.Metrics;
 using Micro.KeyStore.Api.Archive;
 using Micro.KeyStore.Api.Keys.Repositories;
+using Micro.KeyStore.Api.Measurements;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -41,31 +42,39 @@ namespace Micro.KeyStore.Api.Workers
             {
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var keys = await _keyRepository.FindCreatedBefore(
-                        DateTime.Now.Subtract(TimeSpan.FromMinutes(_config.TimeToLiveInMinutes)), _config.BatchSize);
+                    var keys = (await _keyRepository.FindCreatedBefore(
+                        DateTime.Now.Subtract(TimeSpan.FromMinutes(_config.TimeToLiveInMinutes)), _config.BatchSize)).ToList();
                     foreach (var key in keys)
                     {
                         try
                         {
-                            await _archiver.Save(new Key
+                            var elapsed = await Measurements.Timer.MeasureAsync(async () => await _archiver.Save(new Key
                             {
                                 Body = key.Body,
                                 Id = key.ShortSha
-                            });
+                            }));
+                            WorkerMeasurements.MeasureTime(_metrics, elapsed);
+                            WorkerMeasurements.MeasureArchiveOccurrence(_metrics);
                             await _keyRepository.Remove(key.Id);
                         }
                         catch (Exception e)
                         {
+                            WorkerMeasurements.MeasureErrorOccurrence(_metrics);
                             _logger.LogError(e, "exception caught");
+                        }
+
+                        if (stoppingToken.IsCancellationRequested)
+                        {
+                            return;
                         }
                     }
 
-                    _logger.LogInformation($"Archived {keys.Count()} keys at {DateTime.Now}");
+                    _logger.LogInformation($"Archived {keys.Count} keys at {DateTime.Now}");
                     if (stoppingToken.IsCancellationRequested) return;
                     await Task.Delay(TimeSpan.FromSeconds(_config.BatchIntervalInSeconds), stoppingToken);
                 }
             }
-            catch (OperationCanceledException e)
+            catch (OperationCanceledException)
             {
                 // do nothing
             }
