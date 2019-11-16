@@ -27,7 +27,7 @@ this essentially does nothing, this is perfect when you don't want to save histo
 this POSTs key and id to a webhook endpoint, any custom business you might want to have will have to be a separate micro-service which does what you need to do.
 
 ### WebhookUrl
-this is only needed when you want ot use webhook driver to configure where to send
+this is only needed when you want to use webhook driver to configure where to send
 
 ### BatchSize
 To ensure we don't spam a webhook url or do a large delete on table and cause replication problems, worker takes some items which needs to be cleaned up, cleans them up, then waits for next batch so it can reduce load.
