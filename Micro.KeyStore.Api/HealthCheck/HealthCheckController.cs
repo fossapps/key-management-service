@@ -40,17 +40,9 @@ namespace Micro.KeyStore.Api.HealthCheck
             }
         }
 
-        private static async Task<bool> GetFakeDbHealth()
+        private static Task<bool> GetFakeDbHealth()
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception)
-            {
-                // todo: log e
-                return false;
-            }
+            return new Task<bool>(() => true);
         }
 
         private static Task<bool> GetFakeCacheHealth()
