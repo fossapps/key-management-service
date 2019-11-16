@@ -5,9 +5,8 @@ using App.Metrics.AspNetCore;
 using App.Metrics.Extensions.Configuration;
 using App.Metrics.Formatters.InfluxDB;
 using Micro.KeyStore.Api.Models;
+using Micro.KeyStore.Api.StartupExtensions;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +26,7 @@ namespace Micro.KeyStore.Api
                 try
                 {
                     var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>().Database;
-                    await MigrateOrFail(db, logger);
+                    await db.MigrateOrFail(logger);
                 }
                 catch (RetryLimitExceededException e)
                 {
@@ -37,41 +36,6 @@ namespace Micro.KeyStore.Api
                 }
             }
             host.Run();
-        }
-
-        private static async Task MigrateOrFail(DatabaseFacade db, ILogger logger)
-        {
-            for (var i = 0; i <= 3; i++)
-            {
-                var waitTime = new[] {1, 3, 8, 10}[i];
-                logger.LogInformation($"Db connection attempt in {waitTime} seconds");
-                await Task.Delay(TimeSpan.FromSeconds(waitTime));
-
-                if (await TryMigrate(db))
-                {
-                    return;
-                }
-                logger.LogWarning("Connection failed...");
-            }
-            throw new RetryLimitExceededException("Couldn't connect to database");
-        }
-
-        private static async Task<bool> TryMigrate(DatabaseFacade db)
-        {
-            try
-            {
-                var canConnect = await db.CanConnectAsync();
-                if (!canConnect)
-                {
-                    return false;
-                }
-                await db.MigrateAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
