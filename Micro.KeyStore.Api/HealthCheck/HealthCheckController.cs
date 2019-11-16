@@ -21,7 +21,7 @@ namespace Micro.KeyStore.Api.HealthCheck
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<HealthData>), StatusCodes.Status200OK)]
-        public async Task<HealthData> Get()
+        public async Task<ActionResult<HealthData>> Get()
         {
             using (_metrics.Measure.Timer.Time(new TimerOptions
             {
@@ -31,18 +31,17 @@ namespace Micro.KeyStore.Api.HealthCheck
                 RateUnit = TimeUnit.Milliseconds
             }))
             {
-                await Task.Delay(1000);
-                return new HealthData
+                return Ok(new HealthData
                 {
                     FakeCacheHealth = await GetFakeCacheHealth(),
                     FakeDbHealth = await GetFakeDbHealth()
-                };
+                });
             }
         }
 
         private static Task<bool> GetFakeDbHealth()
         {
-            return new Task<bool>(() => true);
+            return Task.Run(() => true);
         }
 
         private static Task<bool> GetFakeCacheHealth()
