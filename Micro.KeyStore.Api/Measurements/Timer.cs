@@ -23,5 +23,13 @@ namespace Micro.KeyStore.Api.Measurements
             var elapsed = stopwatch.Elapsed;
             return (elapsed, result);
         }
+
+        public static async Task<TimeSpan> MeasureAsync(Func<Task> fn)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            await fn();
+            return stopwatch.Elapsed;
+        }
     }
 }
