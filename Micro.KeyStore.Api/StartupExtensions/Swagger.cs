@@ -11,6 +11,7 @@ namespace Micro.KeyStore.Api.StartupExtensions
         {
             services.AddSwaggerGen(c =>
             {
+                c.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.ActionDescriptor.RouteValues["action"]}");
                 c.ResolveConflictingActions(apiDescription => apiDescription.Last());
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
