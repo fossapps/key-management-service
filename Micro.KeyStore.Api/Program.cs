@@ -4,6 +4,7 @@ using App.Metrics;
 using App.Metrics.AspNetCore;
 using App.Metrics.Extensions.Configuration;
 using App.Metrics.Formatters.InfluxDB;
+using Micro.KeyStore.Api.Configs;
 using Micro.KeyStore.Api.Models;
 using Micro.KeyStore.Api.StartupExtensions;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Micro.KeyStore.Api
 {
@@ -25,8 +27,12 @@ namespace Micro.KeyStore.Api
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                 try
                 {
-                    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>().Database;
-                    await db.MigrateOrFail(logger);
+                    var autoMigrate = host.Services.GetRequiredService<IOptions<DatabaseConfig>>().Value.AutoMigrate;
+                    if (autoMigrate)
+                    {
+                        var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>().Database;
+                        await db.MigrateOrFail(logger);
+                    }
                 }
                 catch (RetryLimitExceededException e)
                 {

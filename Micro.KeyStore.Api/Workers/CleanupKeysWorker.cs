@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace Micro.KeyStore.Api.Workers
 {
@@ -43,7 +44,9 @@ namespace Micro.KeyStore.Api.Workers
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     var keys = (await _keyRepository.FindCreatedBefore(
-                        DateTime.Now.Subtract(TimeSpan.FromMinutes(_config.TimeToLiveInMinutes)), _config.BatchSize)).ToList();
+                            DateTime.Now.Subtract(TimeSpan.FromMinutes(_config.TimeToLiveInMinutes)),
+                            _config.BatchSize))
+                        .ToList();
                     foreach (var key in keys)
                     {
                         try
@@ -73,6 +76,10 @@ namespace Micro.KeyStore.Api.Workers
                     if (stoppingToken.IsCancellationRequested) return;
                     await Task.Delay(TimeSpan.FromSeconds(_config.BatchIntervalInSeconds), stoppingToken);
                 }
+            }
+            catch (NpgsqlException)
+            {
+                _logger.LogWarning("db connection issues");
             }
             catch (OperationCanceledException)
             {
