@@ -21,7 +21,7 @@ namespace Micro.KeyStore.Api.StartupExtensions
         }
         public static void SetupSwaggerAndUi(this IApplicationBuilder app)
         {
-            app.UseSwagger();
+            app.UseSwagger(x => { x.SerializeAsV2 = true; });
             app.UseSwaggerUI(x =>
             {
                 x.RoutePrefix = "swagger";
