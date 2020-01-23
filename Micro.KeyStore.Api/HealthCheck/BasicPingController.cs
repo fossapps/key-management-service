@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Micro.KeyStore.Api.HealthCheck
 {
     [ApiController]
-    [Route("ping")]
+    [Route("")]
     public class BasicPingController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("ping")]
         [ProducesResponseType(typeof(PingResponse), StatusCodes.Status200OK)]
         public IActionResult Ping()
         {
@@ -15,6 +15,12 @@ namespace Micro.KeyStore.Api.HealthCheck
             {
                 Ping = "Pong"
             });
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return RedirectPermanent("/health");
         }
     }
 }
