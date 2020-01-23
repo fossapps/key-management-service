@@ -1,4 +1,5 @@
 using Micro.KeyStore.Api.Configs;
+using Micro.KeyStore.Api.Middlewares;
 using Micro.KeyStore.Api.StartupExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,8 @@ namespace Micro.KeyStore.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseRouting();
             app.UseAuthorization();
             app.SetupSwaggerAndUi();

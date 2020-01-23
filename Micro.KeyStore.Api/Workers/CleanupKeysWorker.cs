@@ -72,7 +72,7 @@ namespace Micro.KeyStore.Api.Workers
                         }
                     }
 
-                    _logger.LogInformation($"Archived {keys.Count} keys at {DateTime.Now}");
+                    _logger.LogDebug($"Archived {keys.Count} keys at {DateTime.Now}");
                     if (stoppingToken.IsCancellationRequested) return;
                     await Task.Delay(TimeSpan.FromSeconds(_config.BatchIntervalInSeconds), stoppingToken);
                 }
