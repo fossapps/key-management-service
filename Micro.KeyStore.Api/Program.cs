@@ -27,9 +27,10 @@ namespace Micro.KeyStore.Api
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                 try
                 {
-                    var autoMigrate = host.Services.GetRequiredService<IOptions<DatabaseConfig>>().Value.AutoMigrate;
-                    if (autoMigrate)
+                    var dbConfig = host.Services.GetRequiredService<IOptions<DatabaseConfig>>().Value;
+                    if (dbConfig.AutoMigrate)
                     {
+                        logger.LogInformation($"automatically migrating database: {dbConfig.Name}{dbConfig.User}@{dbConfig.Host}");
                         var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>().Database;
                         await db.MigrateOrFail(logger);
                     }
