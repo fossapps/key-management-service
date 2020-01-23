@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -22,7 +24,12 @@ namespace Micro.KeyStore.Api.Middlewares
             {
                 return;
             }
-            _logger.LogInformation($"404: {context.Request.Path}");
+            var builder = new StringBuilder();
+            foreach (var (key, value) in context.Request.Headers)
+            {
+                builder.AppendLine($"{key}:{value}");
+            }
+            _logger.LogDebug($"404: {context.Request.Path} -> \n{builder}");
         }
     }
 }
