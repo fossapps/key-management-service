@@ -81,7 +81,7 @@ namespace Micro.KeyStore.IntegrationTest.Keys
             await repository.Save(new Key {Body = "key4", Id = "4", Sha = "pak_test", CreatedAt = DateTime.Now, ShortSha = "p"});
             await repository.Save(new Key {Body = "key5", Id = "5", Sha = "lom", CreatedAt = DateTime.Now, ShortSha = "l"});
             var actualSha = await repository.FindNextShortSha("sna_temp232");
-            Assert.AreEqual("sn", actualSha);
+            Assert.AreEqual("sna_", actualSha);
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace Micro.KeyStore.IntegrationTest.Keys
             await repository.Save(new Key {Body = "key4", Id = "4", Sha = "pak_test", CreatedAt = DateTime.Now, ShortSha = "p"});
             await repository.Save(new Key {Body = "key5", Id = "5", Sha = "lom", CreatedAt = DateTime.Now, ShortSha = "l"});
             var actualSha = await repository.FindNextShortSha("kite_something");
-            Assert.AreEqual("k", actualSha);
+            Assert.AreEqual("kite", actualSha);
         }
     }
 }
