@@ -45,7 +45,7 @@ namespace Micro.KeyStore.Api.Keys.Repositories
         public async Task<string> FindNextShortSha(string sha)
         {
             var info = await _db.Keys.AsNoTracking().Where(x => sha.StartsWith(x.ShortSha)).Select(x => new {x.ShortSha.Length}).OrderByDescending(x => x.Length).FirstOrDefaultAsync();
-            var length = info.Length + 1;
+            var length = info?.Length ?? 0;
             return sha.Substring(0, length > 4 ? length : 4);
         }
 
