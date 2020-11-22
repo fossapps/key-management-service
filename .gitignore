@@ -60,3 +60,4 @@ _Resharper*/
 .idea/**/vcs.xml
 .idea/**/module.xml
 .idea/**/misc.xml
+./Sdk/Generated/**
