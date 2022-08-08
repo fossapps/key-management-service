@@ -38,7 +38,7 @@ Entity Framework helps you create migrations by looking at what's in the databas
 
 To create a migration, first change your models as you wish. If you're creating a new model, simply create the new model and register in application context.
 
-Once You're happy with the changes, simply enter into the Startup project and run: dotnet ef migrations add InitialCreate --project ../GetWeed.Backend.Storage/GetWeed.Backend.Storage.csproj. This should create migrations inside Storage project.
+Once You're happy with the changes, simply enter into the Startup project and run: `dotnet ef migrations add InitialCreate --project ../Storage/Storage.csproj` This should create migrations inside Storage project.
 
 ### Running a migration
 To run a migration, simply run use the migrate command
