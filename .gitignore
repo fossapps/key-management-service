@@ -1,3 +1,8 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
 [Bb]uild
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -60,4 +65,3 @@ _Resharper*/
 .idea/**/vcs.xml
 .idea/**/module.xml
 .idea/**/misc.xml
-./Sdk/Generated/**
