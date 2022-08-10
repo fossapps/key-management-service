@@ -53,9 +53,9 @@ jobs:
       - name: Build Docker Image
         run: |
           TAG=${GITHUB_SHA}
-          docker build . -t smokeyweed/$SERVICE_NAME --build-arg VERSION=$TAG
-          docker tag smokeyweed/$SERVICE_NAME smokeyweed/$SERVICE_NAME:$TAG
-          docker push smokeyweed/$SERVICE_NAME:$TAG
+          docker build . -t fossapps/$SERVICE_NAME --build-arg VERSION=$TAG
+          docker tag fossapps/$SERVICE_NAME fossapps/$SERVICE_NAME:$TAG
+          docker push fossapps/$SERVICE_NAME:$TAG
 
   publish:
     needs: [ build-docker-image ]
