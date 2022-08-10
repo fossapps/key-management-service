@@ -9,7 +9,7 @@ if (args[0] == "--applicationName")
 {
     Cli.StartServer(args);
 }
-var rootCommand = new RootCommand("GetWeed backend subgraph component");
+var rootCommand = new RootCommand("key management service");
 
 var serverSubcommand = new Command("server", "manage server");
 
