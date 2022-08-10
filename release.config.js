@@ -1,4 +1,4 @@
-const serviceName = 'smokeyweed/getweed.backend';
+const serviceName = 'fossapps/key_management_service';
 
 class SemanticReleaseError extends Error {
     constructor(message, code, details) {

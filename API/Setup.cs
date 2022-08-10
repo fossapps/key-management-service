@@ -13,7 +13,8 @@ public static class Setup
             .AddApolloFederation()
             .AddApolloTracing()
             .AddType<User>()
-            .AddQueryType<Query>();
+            .AddQueryType<Query>()
+            .AddMutationType<Mutation>();
     }
 
     public static void AddGraphQlEndpoints(this WebApplication application)
