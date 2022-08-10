@@ -1,6 +1,5 @@
 using API.types;
 using Business;
-using Storage.Cart;
 
 namespace API;
 
@@ -11,8 +10,8 @@ public class Query
         return Task.FromResult(new User("user_id"));
     }
 
-    public async Task<IEnumerable<CartItem>> Cart([Service]ICart cart)
+    public Task<IEnumerable<Key>> Keys([Service] IKeyService keyService)
     {
-        return await cart.GetItems();
+        return keyService.FetchAllKeys();
     }
 }

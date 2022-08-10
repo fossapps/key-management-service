@@ -3,7 +3,7 @@
   "profiles": {
     "Migrate": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
+      "dotnetRunMessages": false,
       "launchBrowser": false,
       "launchUrl": "/graphql",
       "applicationUrl": "http://localhost:5000",
@@ -14,7 +14,7 @@
     },
     "StartServer": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
+      "dotnetRunMessages": false,
       "launchBrowser": false,
       "launchUrl": "/graphql",
       "applicationUrl": "http://localhost:5000",

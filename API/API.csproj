@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate.ApolloFederation" Version="12.12.1" />
-        <PackageReference Include="HotChocolate.AspNetCore" Version="12.12.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="HotChocolate.ApolloFederation" Version="12.12.1"/>
+        <PackageReference Include="HotChocolate.AspNetCore" Version="12.12.1"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Business\Business.csproj" />
+        <ProjectReference Include="..\Business\Business.csproj"/>
     </ItemGroup>
 
 </Project>

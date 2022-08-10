@@ -1,20 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Npgsql;
-using Storage.Cart;
+using Storage.Generators;
 
 namespace Storage;
 
 public class ApplicationContext : DbContext
 {
     private readonly DatabaseConfig _dbConfig;
-    public DbSet<CartItem> CartItems { set; get; }
 
     public ApplicationContext(DbContextOptions options, IOptions<DatabaseConfig> dbOption) : base(options)
     {
         _dbConfig = dbOption.Value;
-        Console.WriteLine(_dbConfig.Host);
     }
+
+    public DbSet<Key> Keys { set; get; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,6 +30,18 @@ public class ApplicationContext : DbContext
         optionsBuilder
             .UseSnakeCaseNamingConvention()
             .UseNpgsql(connection.ConnectionString,
-            options => { options.MigrationsAssembly("GetWeed.Backend.Storage"); });
+                options =>
+                {
+                    options.MigrationsAssembly("Storage");
+                    if (_dbConfig.MigrationTableName != null)
+                        options.MigrationsHistoryTable(_dbConfig.MigrationTableName);
+                });
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Key>().Property(x => x.Id).ValueGeneratedOnAdd().HasValueGenerator<IdValueGenerator>();
+
+        base.OnModelCreating(modelBuilder);
     }
 }

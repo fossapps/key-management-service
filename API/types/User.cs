@@ -2,8 +2,7 @@ namespace API.types;
 
 public sealed record User(string Id)
 {
-    [Key]
-    public string Id { get; set; } = Id;
+    [Key] public string Id { get; set; } = Id;
 
     [ReferenceResolver]
     public static Task<User> GetUserByIdAsync(string id)
