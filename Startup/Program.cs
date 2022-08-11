@@ -5,10 +5,7 @@ using Startup;
 // but we're trying to use a command pattern
 // we just check if this is a entity framework's invocation,
 // and simply start the server that it so desires.
-if (args[0] == "--applicationName")
-{
-    Cli.StartServer(args);
-}
+if (args[0] == "--applicationName") Cli.StartServer(args);
 
 var rootCommand = new RootCommand("key management service");
 
@@ -27,10 +24,7 @@ dbMigrateCommand.SetHandler(() => { Cli.Migrate(args); });
 var dbArchiveCommand = new Command("archive_keys", "archive old keys");
 var keyTtlHours = new Option<int>("--key-ttl-hours", () => 72);
 dbArchiveCommand.AddOption(keyTtlHours);
-dbArchiveCommand.SetHandler((hoursBefore) =>
-{
-    Cli.CleanupKeys(args, hoursBefore);
-}, keyTtlHours);
+dbArchiveCommand.SetHandler(hoursBefore => { Cli.CleanupKeys(args, hoursBefore); }, keyTtlHours);
 dbCommand.AddCommand(dbArchiveCommand);
 
 dbCommand.AddCommand(dbMigrateCommand);

@@ -37,8 +37,8 @@ public class KeyServiceTest
         var mockKeyRepo = new Mock<IKeyRepository>();
         var mockKeys = new List<Storage.Key>
         {
-            new() { Body = "1", Id = "key_1"},
-            new() { Body = "2", Id = "key_2"},
+            new() {Body = "1", Id = "key_1"},
+            new() {Body = "2", Id = "key_2"}
         };
         mockKeyRepo.Setup(x => x.FindAllKeys()).ReturnsAsync(mockKeys.AsEnumerable());
         var service = new KeyService(mockKeyRepo.Object);
