@@ -11,6 +11,7 @@ public static class Setup
             .AddGraphQLServer()
             .AddApolloFederation()
             .AddApolloTracing()
+            .AddErrorFilter<ExceptionHandler>()
             .AddQueryType<Query>()
             .AddMutationType<Mutation>();
     }

@@ -8,7 +8,7 @@ public sealed record Key
 
     public string Body { set; get; }
 
-    public static async Task<Key> GetKeyById([Service] KeyService keyService, string Id)
+    public static async Task<Key> GetKeyById([Service] IKeyService keyService, string Id)
     {
         return (await keyService.FindById(Id)).ToGraphQl();
     }

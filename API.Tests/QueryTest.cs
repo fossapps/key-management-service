@@ -16,7 +16,7 @@ public class QueryTest
         mockKeyService.Setup(x => x.FetchAllKeys()).ReturnsAsync(new List<Key>
         {
             new() {Body = "body1", Id = "id1"},
-            new() {Body = "body2", Id = "id2"},
+            new() {Body = "body2", Id = "id2"}
         });
         var query = new Query();
         var queryResponse = await query.Keys(mockKeyService.Object);

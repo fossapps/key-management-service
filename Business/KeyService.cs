@@ -1,4 +1,3 @@
-using HotChocolate.Execution;
 using Storage;
 
 namespace Business;
@@ -23,7 +22,7 @@ public class KeyService : IKeyService
     public async Task<Key> FindById(string id)
     {
         var key = await _keyRepository.FindById(id);
-        if (key == null) throw new QueryException("key not found");
+        if (key == null) throw new Exceptions.KeyNotFoundException("key not found");
 
         return key.ToViewModel();
     }
