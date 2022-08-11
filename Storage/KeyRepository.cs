@@ -7,6 +7,7 @@ public interface IKeyRepository
     Task<IEnumerable<Key>> FindAllKeys();
     Task<Key> Create(Key key);
     Task CleanupKeys(DateTime createdBefore);
+    Task<Key?> FindById(string id);
 }
 
 public class KeyRepository : IKeyRepository
@@ -34,5 +35,10 @@ public class KeyRepository : IKeyRepository
     {
         _db.Keys.RemoveRange(_db.Keys.Where(x => x.CreatedAt < createdBefore));
         return _db.SaveChangesAsync();
+    }
+
+    public Task<Key?> FindById(string id)
+    {
+        return _db.Keys.FirstOrDefaultAsync(x => x.Id == id);
     }
 }

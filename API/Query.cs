@@ -1,17 +1,13 @@
-using API.types;
+using API.Types;
 using Business;
+using Key = API.Types.Key;
 
 namespace API;
 
 public class Query
 {
-    public Task<User> Me()
+    public async Task<IEnumerable<Key>> Keys([Service] IKeyService keyService)
     {
-        return Task.FromResult(new User("user_id"));
-    }
-
-    public Task<IEnumerable<Key>> Keys([Service] IKeyService keyService)
-    {
-        return keyService.FetchAllKeys();
+        return (await keyService.FetchAllKeys()).Select(x => x.ToGraphQl());
     }
 }

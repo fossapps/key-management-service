@@ -1,5 +1,4 @@
-﻿using API.types;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace API;
@@ -12,7 +11,6 @@ public static class Setup
             .AddGraphQLServer()
             .AddApolloFederation()
             .AddApolloTracing()
-            .AddType<User>()
             .AddQueryType<Query>()
             .AddMutationType<Mutation>();
     }

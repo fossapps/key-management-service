@@ -1,9 +1,11 @@
+using HotChocolate.Execution;
 using Storage;
 
 namespace Business;
 
 public interface IKeyService
 {
+    Task<Key> FindById(string id);
     Task<IEnumerable<Key>> FetchAllKeys();
     Task<Key> Create(string publicKey);
     Task CleanupKeys(int hoursBefore);
@@ -16,6 +18,17 @@ public class KeyService : IKeyService
     public KeyService(IKeyRepository keyRepository)
     {
         _keyRepository = keyRepository;
+    }
+
+    public async Task<Key> FindById(string id)
+    {
+        var key =  await _keyRepository.FindById(id);
+        if (key == null)
+        {
+            throw new QueryException("key not found");
+        }
+
+        return key.ToViewModel();
     }
 
     public async Task<IEnumerable<Key>> FetchAllKeys()
