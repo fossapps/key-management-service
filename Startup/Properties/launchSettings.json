@@ -22,6 +22,17 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "commandLineArgs": "server start"
+    },
+    "ArchiveKey": {
+      "commandName": "Project",
+      "dotnetRunMessages": false,
+      "launchBrowser": false,
+      "launchUrl": "/graphql",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "commandLineArgs": "db archive_keys --key-ttl-hours 72"
     }
   }
 }
