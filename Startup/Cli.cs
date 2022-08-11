@@ -1,4 +1,5 @@
 using API;
+using Business;
 using Microsoft.EntityFrameworkCore;
 using Startup.StartupExtensions;
 using Storage;
@@ -31,6 +32,14 @@ public class Cli
         app.AddGraphQlEndpoints();
 
         app.Run();
+    }
+
+    public static void CleanupKeys(string[] args, int hoursBefore)
+    {
+        GetWebHost(args)
+            .Services
+            .GetRequiredService<IKeyService>()
+            .CleanupKeys(hoursBefore);
     }
 
     public static void Migrate(string[] args)

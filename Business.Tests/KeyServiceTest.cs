@@ -49,4 +49,17 @@ public class KeyServiceTest
         Assert.AreEqual("2", enumerable.ElementAt(1).Body);
         Assert.AreEqual("key_2", enumerable.ElementAt(1).Id);
     }
+
+    [Test]
+    public async Task CleanupKeysTest()
+    {
+        var mockKeyRepo = new Mock<IKeyRepository>();
+        mockKeyRepo.Setup(x => x.CleanupKeys(It.IsAny<DateTime>())).Returns((DateTime x) =>
+        {
+            Assert.AreEqual(-1, x.Subtract(DateTime.Now).Hours);
+            return Task.CompletedTask;
+        });
+        var service = new KeyService(mockKeyRepo.Object);
+        await service.CleanupKeys(1);
+    }
 }

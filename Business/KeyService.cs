@@ -6,6 +6,7 @@ public interface IKeyService
 {
     Task<IEnumerable<Key>> FetchAllKeys();
     Task<Key> Create(string publicKey);
+    Task CleanupKeys(int hoursBefore);
 }
 
 public class KeyService : IKeyService
@@ -30,5 +31,10 @@ public class KeyService : IKeyService
             Body = publicKey
         });
         return key.ToViewModel();
+    }
+
+    public Task CleanupKeys(int hoursBefore)
+    {
+        return _keyRepository.CleanupKeys(DateTime.Now.AddHours(-hoursBefore).ToUniversalTime());
     }
 }
