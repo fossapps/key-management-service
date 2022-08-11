@@ -4,8 +4,8 @@ namespace API.Types;
 
 public sealed record Key
 {
-    [Key]
-    public string Id { set; get; }
+    [Key] public string Id { set; get; }
+
     public string Body { set; get; }
 
     public static async Task<Key> GetKeyById([Service] KeyService keyService, string Id)
@@ -21,7 +21,7 @@ public static class BusinessKeyExtension
         return new Key
         {
             Body = key.Body,
-            Id = key.Id,
+            Id = key.Id
         };
     }
 }

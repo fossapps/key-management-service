@@ -22,11 +22,8 @@ public class KeyService : IKeyService
 
     public async Task<Key> FindById(string id)
     {
-        var key =  await _keyRepository.FindById(id);
-        if (key == null)
-        {
-            throw new QueryException("key not found");
-        }
+        var key = await _keyRepository.FindById(id);
+        if (key == null) throw new QueryException("key not found");
 
         return key.ToViewModel();
     }
