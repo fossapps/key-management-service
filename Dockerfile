@@ -10,8 +10,8 @@ ARG VERSION
 ENV APP_VERSION="${VERSION}"
 WORKDIR /app
 COPY --from=build /app/out/ ./
-RUN chmod +x ./key_management_service && apt-get update && apt-get install -y --no-install-recommends libicu-dev openssl && rm -Rf /var/lib/apt/lists/* && apt-get clean
+RUN chmod +x ./key-management-service && apt-get update && apt-get install -y --no-install-recommends libicu-dev openssl && rm -Rf /var/lib/apt/lists/* && apt-get clean
 ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
 STOPSIGNAL SIGTERM
-CMD ["./key_management_service", "server", "start"]
+CMD ["./key-management-service", "server", "start"]
