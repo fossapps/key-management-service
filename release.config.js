@@ -1,4 +1,4 @@
-const serviceName = 'fossapps/key_management_service';
+const serviceName = 'fossapps/key-management-service';
 
 class SemanticReleaseError extends Error {
     constructor(message, code, details) {
