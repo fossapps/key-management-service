@@ -8,7 +8,7 @@ namespace API;
 public class Mutation
 {
     [Protected("registerPublicKey")]
-    public async Task<Key> RegisterPublicKey([Service] IKeyService keyService, string publicKey)
+    public async Task<Key?> RegisterPublicKey([Service] IKeyService keyService, string publicKey)
     {
         return (await keyService.Create(publicKey)).ToGraphQl();
     }
