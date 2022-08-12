@@ -8,7 +8,8 @@ public class ExceptionHandler : IErrorFilter
     {
         return error.Exception == null
             ? error
-            : error.WithMessage(error.Exception.Message).WithCode(ToSnakeCase(error.Exception.GetType().Name).ToUpper());
+            : error.WithMessage(error.Exception.Message)
+                .WithCode(ToSnakeCase(error.Exception.GetType().Name).ToUpper());
     }
 
     private static string ToSnakeCase(string text)

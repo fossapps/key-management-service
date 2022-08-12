@@ -10,5 +10,6 @@ public static class DependencyInjection
         services.AddSingleton<IKeyRepository, KeyRepository>();
         services.AddSingleton<IKeyService, KeyService>();
         services.AddDbContext<ApplicationContext>(ServiceLifetime.Singleton);
+        services.AddHttpContextAccessor();
     }
 }

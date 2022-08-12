@@ -1,4 +1,5 @@
 using Storage;
+using KeyNotFoundException = Business.Exceptions.KeyNotFoundException;
 
 namespace Business;
 
@@ -22,7 +23,7 @@ public class KeyService : IKeyService
     public async Task<Key> FindById(string id)
     {
         var key = await _keyRepository.FindById(id);
-        if (key == null) throw new Exceptions.KeyNotFoundException("key not found");
+        if (key == null) throw new KeyNotFoundException("key not found");
 
         return key.ToViewModel();
     }
