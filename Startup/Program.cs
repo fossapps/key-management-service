@@ -30,4 +30,4 @@ dbCommand.AddCommand(dbArchiveCommand);
 dbCommand.AddCommand(dbMigrateCommand);
 rootCommand.AddCommand(dbCommand);
 
-rootCommand.InvokeAsync(args);
+return await rootCommand.InvokeAsync(args);
