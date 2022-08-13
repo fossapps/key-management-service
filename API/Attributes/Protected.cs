@@ -29,7 +29,7 @@ public class ProtectedAttribute : ObjectFieldDescriptorAttribute
             var headerValue = GetHeaderValue(ctx, operationRule);
             if (headerValue == null || headerValue != operationRule.Value)
             {
-                throw new OperationNotPermitted("you do not have access to perform this operation");
+                throw new OperationNotPermitted($"you do not have access to perform this operation. ${headerValue}");
             }
             return next.Invoke(ctx);
         });
